@@ -237,45 +237,9 @@ public class PlaceTile {
     }
 
 
-    /**
-     * 方法4: 记录移动信息的方法
-     */
-    private void logMoveInfo(Object player, String source, int row, int col, Tile tile) {
-        String message = String.format("Player %s moved %c from %s to board position (%d,%d)",
-                player, tile.getLetter(), source, row, col);
-        System.out.println(message);
-        logger.info(message);
-    }
-
-    private void logMoveInfo(Object player, int fromRow, int fromCol, int toRow, int toCol, Tile tile) {
-        String message = String.format("Player %s moved %c from board position (%d,%d) to (%d,%d)",
-                player, tile.getLetter(), fromRow, fromCol, toRow, toCol);
-        System.out.println(message);
-        logger.info(message);
-    }
-
-    private void logMoveInfo(Object player, String source, int row, int col, int rackIndex, Tile tile) {
-        String message = String.format("Player %s returned %c from board position (%d,%d) to rack index %d",
-                player, tile.getLetter(), row, col, rackIndex);
-        System.out.println(message);
-        logger.info(message);
-    }
-
-    private void logConfirmation(Object player, List<String> words) {
-        String message = String.format("Player %s confirmed placement, forming words: %s",
-                player, String.join(", ", words));
-        System.out.println(message);
-        logger.info(message);
-    }
-
-    private void logCancellation(Object player) {
-        String message = String.format("Player %s canceled all placements for this turn", player);
-        System.out.println(message);
-        logger.info(message);
-    }
 
     /**
-     * 方法5: 确认当前回合的所有放置。
+     * 方法4: 确认当前回合的所有放置。
      * 这与单词验证器和位置验证器集成
      */
     public boolean confirmPlacements(Object player, WordValidator wordValidator, PositionValidator positionValidator) {
@@ -311,7 +275,7 @@ public class PlaceTile {
     }
 
     /**
-     * 取消当前回合的所有放置。
+     * 方法5.取消当前回合的所有放置。
      */
     public boolean cancelPlacements(Object player) {
         if (!currentTurnPlacements.containsKey(player) || currentTurnPlacements.get(player).isEmpty()) {
@@ -345,7 +309,7 @@ public class PlaceTile {
     }
 
     /**
-     * 获取玩家当前的放置记录。
+     * 方法6：获取玩家当前的放置记录。
      */
     public List<TilePlacement> getCurrentPlacements(Object player) {
         if (!currentTurnPlacements.containsKey(player)) {

@@ -8,22 +8,42 @@ import scrabble.Tile.Tile;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * 基于Log4j2实现的Scrabble游戏日志记录器
+ * 使用不同的Logger实例分别记录游戏、棋盘和回合相关的日志
+ * 通过ThreadContext维护游戏ID和玩家信息的上下文
+ */
 public class Log4j2GameLogger implements GameLogger {
+    /** 游戏整体事件的日志记录器 */
     private static final Logger GAME_LOGGER = LogManager.getLogger("scrabble.game");
+    /** 字母牌操作相关的日志记录器 */
     private static final Logger TILE_LOGGER = LogManager.getLogger("scrabble.tile");
+    /** 回合相关事件的日志记录器 */
     private static final Logger TURN_LOGGER = LogManager.getLogger("scrabble.turn");
     
+    /** 当前游戏的唯一标识符 */
     private final String gameId;
     
+    /**
+     * 创建新的日志记录器实例
+     * 生成唯一的游戏ID并设置到ThreadContext中
+     */
     public Log4j2GameLogger() {
         this.gameId = UUID.randomUUID().toString();
         ThreadContext.put("gameId", gameId);
     }
     
+    /**
+     * 设置当前线程的玩家上下文
+     * @param player 当前操作的玩家
+     */
     private void setupContext(Object player) {
         ThreadContext.put("player", player.toString());
     }
     
+    /**
+     * 清除当前线程的玩家上下文
+     */
     private void clearContext() {
         ThreadContext.remove("player");
     }
@@ -166,4 +186,4 @@ public class Log4j2GameLogger implements GameLogger {
     public void error(String message, Throwable throwable, Object... params) {
         GAME_LOGGER.error(message, params, throwable);
     }
-} 
+}
