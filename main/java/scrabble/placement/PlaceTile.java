@@ -129,25 +129,7 @@ public class PlaceTile {
      * @return 返回是否移动成功
      */
     public boolean movePlacedTile(Object player, int fromRow, int fromCol, int toRow, int toCol) {
-        // 验证这个字母牌是当前回合由这个玩家放置的
-        if (!currentTurnPlacements.containsKey(player)) {
-            return false;
-        }
-
-        List<TilePlacement> placements = currentTurnPlacements.get(player);
-        TilePlacement targetPlacement = null;
-        int placementIndex = -1;
-
-        // 查找放置记录
-        for (int i = 0; i < placements.size(); i++) {
-            TilePlacement placement = placements.get(i);
-            if (placement.getRow() == fromRow && placement.getCol() == fromCol) {
-                targetPlacement = placement;
-                placementIndex = i;
-                break;
-            }
-        }
-
+        TilePlacement targetPlacement = findPlacement(player, fromRow, fromCol);
         if (targetPlacement == null) {
             logger.info("No tile found at ({},{}) for the current turn", fromRow, fromCol);
             return false;
@@ -170,6 +152,16 @@ public class PlaceTile {
             return false;
         }
 
+        // 查找索引并更新放置记录
+        List<TilePlacement> placements = currentTurnPlacements.get(player);
+        int placementIndex = -1;
+        for (int i = 0; i < placements.size(); i++) {
+            if (placements.get(i).getRow() == fromRow && placements.get(i).getCol() == fromCol) {
+                placementIndex = i;
+                break;
+            }
+        }
+
         // 更新放置记录
         placements.set(placementIndex, new TilePlacement(
                 tile, toRow, toCol, targetPlacement.getRackIndex()));
@@ -182,27 +174,15 @@ public class PlaceTile {
 
     /**
      * 方法3: 将已放置的字母牌返回到玩家的字母架。
+     * @param player 玩家
+     * @param row 字母牌所在的行坐标
+     * @param col 字母牌所在的列坐标
+     * @param rackIndex 返回到字母架的目标位置索引，如果为负数则使用原始位置
+     * @return 操作是否成功
      */
     public boolean returnPlacedTileToRack(Object player, int row, int col, int rackIndex) {
-        // 验证这个字母牌是当前回合由这个玩家放置的
-        if (!currentTurnPlacements.containsKey(player)) {
-            return false;
-        }
-
-        List<TilePlacement> placements = currentTurnPlacements.get(player);
-        TilePlacement targetPlacement = null;
-        int placementIndex = -1;
-
-        // 查找放置记录
-        for (int i = 0; i < placements.size(); i++) {
-            TilePlacement placement = placements.get(i);
-            if (placement.getRow() == row && placement.getCol() == col) {
-                targetPlacement = placement;
-                placementIndex = i;
-                break;
-            }
-        }
-
+        // 使用辅助方法查找字母牌放置记录
+        TilePlacement targetPlacement = findPlacement(player, row, col);
         if (targetPlacement == null) {
             logger.info("No tile found at ({},{}) for the current turn", row, col);
             return false;
@@ -215,29 +195,41 @@ public class PlaceTile {
             return false;
         }
 
-        // 如果没有提供索引，则使用原始的字母架索引
+        // 如果没有提供有效索引，则使用原始的字母架索引
         if (rackIndex < 0 && targetPlacement.getRackIndex() >= 0) {
             rackIndex = targetPlacement.getRackIndex();
         }
 
         // 将字母牌添加回字母架
         if (tileRackOperator.addTileToRack(player, tile, rackIndex)) {
-            // 从放置记录中移除
-            placements.remove(placementIndex);
+            // 从当前放置记录中移除该条记录
+            List<TilePlacement> placements = currentTurnPlacements.get(player);
+
+            // 遍历查找并移除放置记录
+            for (int i = 0; i < placements.size(); i++) {
+                TilePlacement placement = placements.get(i);
+                if (placement.getRow() == row && placement.getCol() == col) {
+                    placements.remove(i);
+                    break;
+                }
+            }
+
+            // 如果移除后列表为空，可以考虑移除该玩家的记录
+            if (placements.isEmpty()) {
+                currentTurnPlacements.remove(player);
+            }
 
             // 记录移动信息
             logger.logTileReturn(player, row, col, rackIndex, tile);
 
             return true;
         } else {
-            // 如果返回失败则恢复
+            // 如果返回失败则恢复棋盘状态
             boardOperator.placeTileOnBoard(tile, row, col);
             logger.warn("Failed to return tile to rack, placing back on board at ({},{})", row, col);
             return false;
         }
     }
-
-
 
     /**
      * 方法4: 确认当前回合的所有放置。
@@ -320,7 +312,7 @@ public class PlaceTile {
     }
 
     /**
-     * 辅助方法，用于识别由放置形成的单词（占位符）。
+     * 辅助方法1，用于识别由放置形成的单词（占位符）。
      * 在实际实现中，这将分析棋盘以找到由放置形成的所有单词。
      */
     private List<String> formWords(List<TilePlacement> placements) {
@@ -337,6 +329,27 @@ public class PlaceTile {
     private int calculateScore(List<String> words) {
         // 这是一个简单的得分计算占位符
         return words.size() * 10;
+    }
+
+    /**
+     * 辅助方法2：查找玩家当前回合在指定位置的字母牌放置记录
+     * @param player 玩家
+     * @param row 行坐标
+     * @param col 列坐标
+     * @return 找到的字母牌放置记录，如果不存在则返回null
+     */
+    private TilePlacement findPlacement(Object player, int row, int col) {
+        if (!currentTurnPlacements.containsKey(player)) {
+            return null;
+        }
+
+        List<TilePlacement> placements = currentTurnPlacements.get(player);
+        for (TilePlacement placement : placements) {
+            if (placement.getRow() == row && placement.getCol() == col) {
+                return placement;
+            }
+        }
+        return null;
     }
 }
 
