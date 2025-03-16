@@ -325,14 +325,17 @@ public class PlaceTile {
         logger.debug("Word formation logic would analyze {} placements", placements.size());
         return new ArrayList<>();
     }
-
+    /**
+     * 辅助方法2，计算得分（占位符)。
+     * 在实际实现中，这将当前单词得分。
+     */
     private int calculateScore(List<String> words) {
         // 这是一个简单的得分计算占位符
         return words.size() * 10;
     }
 
     /**
-     * 辅助方法2：查找玩家当前回合在指定位置的字母牌放置记录
+     * 辅助方法3：查找玩家当前回合在指定位置的字母牌放置记录
      * @param player 玩家
      * @param row 行坐标
      * @param col 列坐标

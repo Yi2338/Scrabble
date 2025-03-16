@@ -19,6 +19,15 @@ import java.util.*;
 public class JsonGameLogger implements GameLogger {
     /** Jackson对象映射器 */
     private final ObjectMapper objectMapper;
+
+
+
+
+
+
+
+
+
     /** 当前游戏的唯一标识符 */
     private final String gameId;
     /** 日志文件目录 */
