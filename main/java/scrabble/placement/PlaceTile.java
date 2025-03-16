@@ -70,6 +70,7 @@ public class PlaceTile {
 
         //初始化验证器（待补充）
     }
+
     /**
      * 方法1: 将玩家字母架上选中的字母牌放置到棋盘上。
      * @param player 玩家
