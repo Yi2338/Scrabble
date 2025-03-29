@@ -20,11 +20,6 @@ public interface AIPlayer {
      */
     int evaluatePosition(Object board);
 
-    /**
-     * 设置AI的难度级别
-     * @param level 难度级别（如1=简单，2=中等，3=困难）
-     */
-    void setDifficulty(int level);
 
     /**
      * 根据当前字母架和棋盘状态生成单词
