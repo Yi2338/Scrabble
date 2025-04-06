@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="751.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="800.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/photos/Player_numbers_choose.jpg" />
+         </image>
+      </ImageView>
+      <HBox layoutX="84.0" layoutY="253.0" prefHeight="249.0" prefWidth="832.0" spacing="40.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="255.0" prefWidth="254.0" styleClass="number-button" stylesheets="@/css/style.css" text="2" />
+            <Button mnemonicParsing="false" prefHeight="249.0" prefWidth="260.0" styleClass="number-button" stylesheets="@/css/style.css" text="3" />
+            <Button mnemonicParsing="false" prefHeight="287.0" prefWidth="253.0" styleClass="number-button" stylesheets="@/css/style.css" text="4" />
+         </children>
+      </HBox>
+      <Button layoutX="684.0" layoutY="615.0" mnemonicParsing="false" prefHeight="73.0" prefWidth="225.0" styleClass="menu-button" stylesheets="@/css/style.css" text="Button" />
+   </children>
+</Pane>
