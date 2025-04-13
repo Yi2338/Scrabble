@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scrabble.UI.SettingInterfaceController">
+   <children>
+      <ImageView fitHeight="806.0" fitWidth="1068.0" layoutX="-34.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/photos/Setting_Interface.PNG" />
+         </image>
+      </ImageView>
+
+      
+      <!-- 目标分数设置 -->
+      <Label layoutX="200.0" layoutY="160.0" text="目标分数：" textFill="#533a28">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="targetScoreField" layoutX="400.0" layoutY="162.0" prefHeight="30.0" prefWidth="150.0" promptText="默认100" />
+      <Label fx:id="targetScoreValueLabel" layoutX="565.0" layoutY="163.0" text="100" textFill="#533a28">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Slider fx:id="targetScoreSlider" blockIncrement="25.0" layoutX="650.0" layoutY="165.0" max="500.0" min="50.0" prefWidth="200.0" value="100.0" />
+      
+      <!-- 游戏总时长设置 -->
+      <Label layoutX="200.0" layoutY="240.0" text="游戏总时长（分钟）：" textFill="#533a28">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="timeLimitField" layoutX="400.0" layoutY="237.0" prefHeight="30.0" prefWidth="150.0" promptText="默认30分钟" />
+      <Label fx:id="timeLimitValueLabel" layoutX="570.0" layoutY="240.0" text="30" textFill="#533a28">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Slider fx:id="timeLimitSlider" blockIncrement="5.0" layoutX="650.0" layoutY="245.0" max="120.0" min="5.0" prefWidth="200.0" value="30.0" />
+      
+      <!-- 回合时长设置 -->
+      <Label layoutX="200.0" layoutY="320.0" text="回合时长（秒）：" textFill="#533a28">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="turnTimeLimitField" layoutX="400.0" layoutY="320.0" prefHeight="30.0" prefWidth="150.0" promptText="默认90秒" />
+      <Label fx:id="turnTimeLimitValueLabel" layoutX="570.0" layoutY="320.0" text="90" textFill="#533a28">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Slider fx:id="turnTimeLimitSlider" blockIncrement="10.0" layoutX="650.0" layoutY="325.0" max="300.0" min="30.0" prefWidth="200.0" value="90.0" />
+      
+      <!-- AI难度设置 -->
+      <Label layoutX="200.0" layoutY="400.0" text="AI难度：" textFill="#533a28">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="aiDifficultyComboBox" layoutX="400.0" layoutY="400.0" prefHeight="30.0" prefWidth="150.0" />
+      
+      <!-- 保存按钮 -->
+      <Button fx:id="saveButton" layoutX="600.0" layoutY="701.0" mnemonicParsing="false" onAction="#handleSaveButtonAction" prefHeight="60.0" prefWidth="150.0" styleClass="setting-save-button" stylesheets="@/css/style.css" text="保存设置" textFill="#533a28">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <!-- 返回按钮 -->
+      <Button fx:id="returnButton" layoutX="770.0" layoutY="695.0" mnemonicParsing="false" onAction="#handleReturnButtonAction" prefHeight="81.0" prefWidth="214.0" styleClass="history-save-button" stylesheets="@/css/style.css" />
+   </children>
+</AnchorPane>
